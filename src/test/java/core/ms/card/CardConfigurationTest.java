@@ -1,5 +1,7 @@
 package core.ms.card;
 
+import core.ms.card.cross.utils.ValidationParameter;
+import core.ms.card.exceptions.BusinessException;
 import core.ms.card.infra.domain.Card;
 import core.ms.card.infra.repository.CardRepository;
 import core.ms.card.status.CardStatus;
@@ -88,6 +90,22 @@ class CardConfigurationTest {
     }
 
     @Test
+    void testBuilderCard(){
+        Card c = Card.builder()
+                .id(1L)
+                .nome("Fulano")
+                .conta("00000000-00")
+                .agencia("00000000-00")
+                .bandeira("BANDEIRA")
+                .limiteDisponivel(BigDecimal.valueOf(10000))
+                .nodeID("5af81cc7-06ca-4073-ab02-bdd4bec2d5dc")
+                .status(CardStatus.ATIVO.toString())
+                .build();
+        cardRepository.save(c);
+        Assertions.assertInstanceOf(Card.class, c);
+    }
+
+    @Test
     void testNameCard() {
         Card c = new Card();
         c.setNome("Fulano");
@@ -104,6 +122,14 @@ class CardConfigurationTest {
     }
 
     @Test
+    void testNodeID(){
+        Card c = new Card();
+        c.setNodeID("5af81cc7-06ca-4073-ab02-bdd4bec2d5dc");
+        cardRepository.save(c);
+        Assertions.assertEquals("5af81cc7-06ca-4073-ab02-bdd4bec2d5dc", c.getNodeID());
+    }
+
+    @Test
     void testCardStatusATIVO() {
         Card c = new Card();
         c.setStatus(CardStatus.ATIVO.toString());
@@ -117,5 +143,23 @@ class CardConfigurationTest {
         c.setStatus(CardStatus.INATIVO.toString());
         cardRepository.save(c);
         Assertions.assertEquals(CardStatus.INATIVO.toString(), c.getStatus());
+    }
+
+    @Test
+    void testValidationParameter(){
+        Long id = ValidationParameter.validate("1");
+        Card c = new Card();
+        c.setId(id);
+        cardRepository.save(c);
+        Assertions.assertEquals(id, c.getId());
+    }
+
+    @Test
+    void testValidationParameterInvalid(){
+        Long id = ValidationParameter.validate("1");
+        Card c = new Card();
+        c.setId(id);
+        cardRepository.save(c);
+        Assertions.assertNotEquals("A", c.getId());
     }
 }
