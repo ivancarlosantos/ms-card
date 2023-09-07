@@ -1,2 +1,36 @@
 server:
   port: 8083
+
+#Application Name
+spring:
+  application:
+    name: ms-card
+
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/card
+    username: postgres
+    password: root
+
+  # Observability Configuration
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1.0
+
+  # Hibernate Configuration
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Logging Configuration
+logging:
+  level:
+    org.springframework: INFO
+    com.example: DEBUG

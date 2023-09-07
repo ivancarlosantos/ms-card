@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B package -X --file pom.xml
+
+  version_verify:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: list Directories
+        run: ls -lha
+
+      - name: Show Java Version
+        run: java --version
+
+      - name: Show Maven Version
+        run: mvn --version
+
+      - name: Show Git Version
+        run: git --version
+
+      - name: Show Docker Version
+        run: docker --version
+
+      - name: Build with Maven
+        run: mvn -B package -X --file pom.xml
+
+  QA-Test:
+    needs: [build, version_verify]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Test Application
+        run: |
+          mvn clean verify
+          ls -lha
+          docker run -d --name=nginx -p 80:80 nginx:latest
+
+  tests:
+    needs: [QA-Test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Test Application
+        run: |
+          mvn clean verify
+          mvn test
+
+  deploy:
+    needs: [tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Deploy Application
+        run: |
+          mvn clean install
+          mvn package
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker Image
+        run: docker build -t devmenorzera/card .
+      - name: Publish Docker image
+        run: docker push devmenorzera/card

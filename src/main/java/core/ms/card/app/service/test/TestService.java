@@ -1,4 +1,4 @@
-package core.ms.card.app.service;
+package core.ms.card.app.service.test;
 
 import core.ms.card.infra.domain.Test;
 import org.springframework.stereotype.Service;

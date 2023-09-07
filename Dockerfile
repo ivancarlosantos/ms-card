@@ -14,6 +14,6 @@ WORKDIR /usr/src/app
 
 COPY --from=build /app/target/*.jar card.jar
 
-EXPOSE 8080
+EXPOSE 8083
 
 ENTRYPOINT ["java", "-jar", "card.jar"]

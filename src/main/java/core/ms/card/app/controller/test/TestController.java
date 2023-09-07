@@ -1,6 +1,6 @@
-package core.ms.card.app.controller;
+package core.ms.card.app.controller.test;
 
-import core.ms.card.app.service.TestService;
+import core.ms.card.app.service.test.TestService;
 import core.ms.card.infra.domain.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
