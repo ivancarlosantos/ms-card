@@ -25,8 +25,9 @@ public class CardMaintenanceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cardMaintenanceService.update(id, cardRequest));
 }
     @PutMapping("/delete/{id}/{status}")
-    public ResponseEntity<CardResponse>delete(@PathVariable String id, @PathVariable String value ){
-        return ResponseEntity.status(HttpStatus.CREATED).body(cardMaintenanceService.cardStatus(id, value));
+    public ResponseEntity<CardResponse>delete(@PathVariable String id, @PathVariable String status ){
+
+        return ResponseEntity.status(HttpStatus.OK).body(cardMaintenanceService.cardStatus(id, status));
     }
 
 
