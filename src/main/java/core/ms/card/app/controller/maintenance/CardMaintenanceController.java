@@ -21,7 +21,7 @@ public class CardMaintenanceController {
 
 
     @PutMapping("/update/{id}")
-    public  ResponseEntity<CardResponse> upate(@PathVariable String id, @RequestBody CardRequest cardRequest){
+    public  ResponseEntity<CardResponse> update(@PathVariable String id, @RequestBody CardRequest cardRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(cardMaintenanceService.update(id, cardRequest));
 }
     @PutMapping("/delete/{id}/{status}")
