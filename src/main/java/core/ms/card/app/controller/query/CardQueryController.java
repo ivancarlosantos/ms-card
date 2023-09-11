@@ -20,7 +20,7 @@ public class CardQueryController {
     @Autowired
     CardQueryService cardQueryService;
     @GetMapping
-    public ResponseEntity<List<CardResponse>> getllAll(){
+    public ResponseEntity<List<CardResponse>> getAll(){
         List<CardResponse>listCard= cardQueryService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(listCard);
     }
