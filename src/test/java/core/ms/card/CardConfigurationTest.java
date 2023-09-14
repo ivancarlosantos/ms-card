@@ -1,7 +1,6 @@
 package core.ms.card;
 
 import core.ms.card.cross.utils.ValidationParameter;
-import core.ms.card.exceptions.BusinessException;
 import core.ms.card.infra.domain.Card;
 import core.ms.card.infra.repository.CardRepository;
 import core.ms.card.status.CardStatus;

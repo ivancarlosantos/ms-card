@@ -2,7 +2,6 @@ package core.ms.card.app.service.maintenance;
 
 import core.ms.card.app.dto.request.CardRequest;
 import core.ms.card.app.dto.response.CardResponse;
-import core.ms.card.configuration.ModelMapperConfig;
 import core.ms.card.cross.utils.TokenRequest;
 import core.ms.card.cross.utils.ValidationParameter;
 import core.ms.card.exceptions.BusinessException;
@@ -14,17 +13,20 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.util.Optional;
 
 @Service
 public class CardMaintenanceService {
+
     @Autowired
     private CardRepository cardRepository;
+
     @Autowired
     private ModelMapper mapper;
+
     @Autowired
     private TokenRequest tokenRequest;
+
     public CardResponse save(CardRequest cardRequest){
         Token token= tokenRequest.generateToken();
         Card card= Card.builder()
@@ -54,8 +56,6 @@ public class CardMaintenanceService {
 
     }
 
-
-
     public CardResponse cardStatus(String value, String status){
         Long id = ValidationParameter.validate(value);
         Optional<Card> findCard = Optional
@@ -75,8 +75,4 @@ public class CardMaintenanceService {
 
         return mapper.map(findCard.get(), CardResponse.class);
     }
-
-
-
-
 }

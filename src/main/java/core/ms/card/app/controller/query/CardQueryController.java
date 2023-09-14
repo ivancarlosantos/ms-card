@@ -2,7 +2,6 @@ package core.ms.card.app.controller.query;
 
 import core.ms.card.app.dto.response.CardResponse;
 import core.ms.card.app.service.query.CardQueryService;
-import core.ms.card.infra.domain.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ public class CardQueryController {
     @Autowired
     CardQueryService cardQueryService;
     @GetMapping
-    public ResponseEntity<List<CardResponse>> getllAll(){
+    public ResponseEntity<List<CardResponse>> getAll(){
         List<CardResponse>listCard= cardQueryService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(listCard);
     }
