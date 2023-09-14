@@ -11,24 +11,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/domain/card")
 public class CardMaintenanceController {
+
     @Autowired
     private CardMaintenanceService cardMaintenanceService;
 
     @PostMapping
     public ResponseEntity<CardResponse> save(@RequestBody CardRequest cardRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(cardMaintenanceService.save(cardRequest));
-}
-
-
-    @PutMapping("/update/{id}")
-    public  ResponseEntity<CardResponse> upate(@PathVariable String id, @RequestBody CardRequest cardRequest){
-        return ResponseEntity.status(HttpStatus.CREATED).body(cardMaintenanceService.update(id, cardRequest));
-}
-    @PutMapping("/delete/{id}/{status}")
-    public ResponseEntity<CardResponse>delete(@PathVariable String id, @PathVariable String status){
-        return ResponseEntity.status(HttpStatus.CREATED).body(cardMaintenanceService.cardStatus(id, status));
     }
 
+    @PutMapping("/update/{id}")
+    public  ResponseEntity<CardResponse> update(@PathVariable String id, @RequestBody CardRequest cardRequest){
+        return ResponseEntity.status(HttpStatus.CREATED).body(cardMaintenanceService.update(id, cardRequest));
+    }
 
-
+    @PutMapping("/delete/{id}/{status}")
+    public ResponseEntity<CardResponse>delete(@PathVariable String id, @PathVariable String status ){
+        return ResponseEntity.status(HttpStatus.OK).body(cardMaintenanceService.cardStatus(id, status));
+    }
 }
