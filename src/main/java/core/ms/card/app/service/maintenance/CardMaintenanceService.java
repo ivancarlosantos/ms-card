@@ -2,6 +2,7 @@ package core.ms.card.app.service.maintenance;
 
 import core.ms.card.app.dto.request.CardRequest;
 import core.ms.card.app.dto.response.CardResponse;
+import core.ms.card.app.service.query.CardQueryService;
 import core.ms.card.cross.utils.TokenRequest;
 import core.ms.card.cross.utils.ValidationParameter;
 import core.ms.card.exceptions.BusinessException;
@@ -26,6 +27,8 @@ public class CardMaintenanceService {
 
     @Autowired
     private TokenRequest tokenRequest;
+    @Autowired
+    private CardQueryService cardQueryService;
 
     public CardResponse save(CardRequest cardRequest){
         Token token= tokenRequest.generateToken();
@@ -33,7 +36,7 @@ public class CardMaintenanceService {
                 .nome(cardRequest.getNome())
                 .conta(cardRequest.getConta())
                 .agencia(cardRequest.getAgencia())
-                .bandeira(cardRequest.getBandeira())
+                .bandeira(cardQueryService.generateFlag().getBandeira())
                 .limiteDisponivel(cardRequest.getLimiteDisponivel())
                 .nodeID(token.getToken())
                 .status(CardStatus.ATIVO.toString())
